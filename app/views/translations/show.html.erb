@@ -1,2 +1,7 @@
-<h1>Translations#show</h1>
-<p>Find me in app/views/translations/show.html.erb</p>
+<turbo-frame id="translation_phrases">
+  <% if @translation.present? %>
+    <% @translation.translation_phrases.each do |translation_phrase| %>
+      <%= render translation_phrase %>
+    <% end %>
+  <% end %>
+</turbo-frame>

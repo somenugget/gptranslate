@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>GPTranslate</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>GPTranslate</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= vite_client_tag %>
-    <%= vite_javascript_tag 'application' %>
-    <!--
-      If using a TypeScript entrypoint file:
-        vite_typescript_tag 'application'
+  <%= vite_stylesheet_tag "tailwind", "data-turbo-track": "reload" %>
+  <%= vite_client_tag %>
+  <%= vite_javascript_tag 'application' %>
+  <%= vite_javascript_tag 'translations' %>
+  <!--
+    If using a TypeScript entrypoint file:
+      vite_typescript_tag 'application'
 
-      If using a .jsx or .tsx entrypoint, add the extension:
-        vite_javascript_tag 'application.jsx'
+    If using a .jsx or .tsx entrypoint, add the extension:
+      vite_javascript_tag 'application.jsx'
 
-      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
-    -->
+    Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+  -->
 
-  </head>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body class="h-full">
+<main id='translations'></main>
+<main class="flex h-screen">
+  <div class="w-1/4 p-2 border-r border-gray-300">
+    <% if @translations.any? %>
+      <% @translations.each do |translation| %>
+        <%= translation.name %>
+      <% end %>
+    <% else %>
+      <p>Your translations will be here</p>
+    <% end %>
+  </div>
+  <div class="w-full h-full p-3">
+    <div class="grow-1 h-5/6">
+      <%= yield %>
+    </div>
+    <%= form_with model: TranslationPhrase.new, class: "w-full h-1/6 flex flex-col" do |f| %>
+      <%= f.hidden_field :translation_id, value: @translation&.id %>
+      <div class="mb-1 ">
+        Translate from:
+
+        <%= f.select :lang_from, Translation::LANGUAGES.invert.to_a, class: 'py-0.5' %>
+        <%= f.select :lang_to, Translation::LANGUAGES.invert.to_a, class: 'py-0.5' %>
+      </div>
+      <div class="flex grow-1 shrink-0 relative">
+        <%= f.text_area :text_from, class: "w-full rounded resize-none" %>
+        <%= f.submit 'Translate', class: 'absolute py-1 px-2 text-white rounded right-1 bottom-1 bg-cyan-700' %>
+      </div>
+    <% end %>
+  </div>
+</main>
+</body>
 </html>

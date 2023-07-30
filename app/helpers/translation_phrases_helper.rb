@@ -1,0 +1,2 @@
+module TranslationPhrasesHelper
+end

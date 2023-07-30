@@ -25,16 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_144349) do
     t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
-  create_table "translation_sets", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_translation_sets_on_user_id"
-  end
-
-  create_table "translations", force: :cascade do |t|
-    t.bigint "translation_set_id", null: false
+  create_table "translation_phrases", force: :cascade do |t|
+    t.bigint "translation_id", null: false
     t.integer "status", default: 0, null: false
     t.string "lang_from", null: false
     t.string "lang_to", null: false
@@ -42,12 +34,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_144349) do
     t.string "text_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["translation_set_id"], name: "index_translations_on_translation_set_id"
+    t.index ["translation_id"], name: "index_translation_phrases_on_translation_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_translations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.boolean "guest", default: false
     t.string "first_name"
     t.string "last_name"
     t.string "reset_password_token"
@@ -58,6 +59,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_144349) do
   end
 
   add_foreign_key "authorizations", "users"
-  add_foreign_key "translation_sets", "users"
-  add_foreign_key "translations", "translation_sets"
+  add_foreign_key "translation_phrases", "translations"
+  add_foreign_key "translations", "users"
 end

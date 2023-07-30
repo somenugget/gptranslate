@@ -6,9 +6,6 @@ ruby '3.2.2'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.6'
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem 'sprockets-rails'
-
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 
@@ -16,11 +13,12 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 
 gem 'devise'
+gem 'devise-guests'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-twitter'
 
 gem 'vite_rails'
 
@@ -32,6 +30,11 @@ gem 'stimulus-rails'
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+
+gem 'sidekiq'
+
+gem 'ruby-openai'
+gem 'service_actor'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -53,8 +56,9 @@ group :development, :test do
   gem 'byebug'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 
-  gem 'rubocop'
   gem 'dotenv-rails'
+
+  gem 'rubocop'
 end
 
 group :development do

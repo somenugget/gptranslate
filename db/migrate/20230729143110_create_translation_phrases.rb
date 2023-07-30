@@ -1,7 +1,7 @@
-class CreateTranslations < ActiveRecord::Migration[7.0]
+class CreateTranslationPhrases < ActiveRecord::Migration[7.0]
   def change
-    create_table :translations do |t|
-      t.references :translation_set, null: false, foreign_key: true
+    create_table :translation_phrases do |t|
+      t.references :translation, null: false, foreign_key: true
       t.integer :status, null: false, default: 0
 
       t.string :lang_from, null: false
