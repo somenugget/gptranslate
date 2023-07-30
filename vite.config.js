@@ -1,9 +1,8 @@
-import * as path from 'path'
-
-import { defineConfig } from 'vite'
-import RubyPlugin from 'vite-plugin-ruby'
-import FullReload from 'vite-plugin-full-reload'
 import VuePlugin from '@vitejs/plugin-vue'
+import * as path from 'path'
+import { defineConfig } from 'vite'
+import FullReload from 'vite-plugin-full-reload'
+import RubyPlugin from 'vite-plugin-ruby'
 
 export default defineConfig({
   plugins: [
@@ -12,20 +11,9 @@ export default defineConfig({
     VuePlugin(),
   ],
   resolve: {
-    alias: [
-      {
-        find: '@/lib',
-        replacement: path.resolve(__dirname, './app/frontend/components/lib/'),
-      },
-      {
-        find: '@/components',
-        replacement: path.resolve(__dirname, './app/frontend/components/'),
-      },
-      {
-        find: '@/entrypoints',
-        replacement: path.resolve(__dirname, './app/frontend/entrypoints'),
-      },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, './app/frontend'),
+    },
   },
   server: {
     hmr: {

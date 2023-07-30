@@ -3,7 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: [
     './public/*.html',
-    './app/frontend/**/*.js',
+    './app/frontend/**/*.{js,ts,vue}',
     './app/views/**/*.erb',
   ],
   theme: {
@@ -18,5 +18,5 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
-  ]
+  ],
 }

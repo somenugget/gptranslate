@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <h1>Translations</h1>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/t">Tr</router-link>
-    <router-view />
-  </div>
+  <Sidebar />
+  <router-view />
 </template>
 
-
 <script>
-export default {
+import { defineComponent } from 'vue'
+import Sidebar from '@/components/translations/Sidebar.vue'
+import { useQuery } from '@tanstack/vue-query'
+export default defineComponent({
   name: 'translations',
-  data () {
+  components: {
+    Sidebar,
+  },
+
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
     }
-  }
-}
+  },
+})
 </script>
