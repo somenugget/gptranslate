@@ -5,7 +5,7 @@ module Api
       translation = if translation_id.present?
                       current_or_guest_user.translations.find(translation_id)
                     else
-                      current_or_guest_user.translations.create!(name: translation_phrase_params[:text_from])
+                      current_or_guest_user.translations.create!(name: translation_phrase_params[:text_from][0..30])
                     end
 
       translation_phrase = translation.translation_phrases.create(translation_phrase_params)

@@ -58,7 +58,10 @@ import { defineComponent } from 'vue'
 import { FormKitMessages } from '@formkit/vue'
 import { useQueryClient } from '@tanstack/vue-query'
 
-import { addTranslationPhraseToCache } from '@/helpers/cache'
+import {
+  addTranslationPhraseToCache,
+  invalidateTranslationsCache,
+} from '@/helpers/cache'
 import { createTranslationPhrase } from '@/api/translationPhrases'
 
 export default defineComponent({
@@ -72,22 +75,31 @@ export default defineComponent({
   },
   setup() {
     const queryClient = useQueryClient()
-
     return { queryClient }
   },
   methods: {
     submit(data, node) {
+      const translationId = this.$router.currentRoute?.value?.params?.id
+
       return createTranslationPhrase({
-        translationId: this.$router.currentRoute?.value?.params?.id,
+        translationId,
         ...data,
       })
         .then((translationPhrase) => {
-          addTranslationPhraseToCache({
-            queryClient: this.queryClient,
-            translationPhrase,
-          })
-
           node.reset()
+
+          if (translationId) {
+            addTranslationPhraseToCache({
+              queryClient: this.queryClient,
+              translationPhrase,
+            })
+          } else {
+            invalidateTranslationsCache({ queryClient: this.queryClient })
+            this.$router.push({
+              name: 'translation',
+              params: { id: translationPhrase.translationId },
+            })
+          }
         })
         .catch((error) => {
           console.log(error)
