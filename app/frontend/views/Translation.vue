@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full h-screen justify-between">
     <TranslationsList :translation="translation" />
     <TranslationsForm :translation="translation" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import * as ActionCable from '@rails/actioncable'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
@@ -25,14 +25,27 @@ export default defineComponent({
   },
   setup() {
     const queryClient = useQueryClient()
-    const { params } = useRoute()
-    const translationId = params.id
+    const route = useRoute()
+    const translationId = ref(route.params.id)
+
+    watch(
+      () => route.params.id,
+      () => {
+        translationId.value = route.params.id
+      },
+    )
+
     const { isFetching, data } = useQuery({
       queryKey: queryKeys.translation(translationId),
-      queryFn: () => getTranslation({ id: translationId }),
+      queryFn: () => getTranslation({ id: translationId.value }),
     })
 
-    return { queryClient, isFetching, translationId, translation: data }
+    return {
+      queryClient,
+      isFetching,
+      translationId: translationId.value,
+      translation: data,
+    }
   },
   mounted() {
     const translationId = this.translationId

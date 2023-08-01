@@ -1,5 +1,5 @@
 <template>
-  <div v-if="translation" ref="wrapper" class="h-full overflow-y-auto">
+  <div v-if="translation" ref="wrapper" class="overflow-y-auto">
     <div
       v-for="translationPhrase in translation.translationPhrases"
       :key="translationPhrase.id"
@@ -36,7 +36,9 @@ export default defineComponent({
   watch: {
     translation() {
       this.$nextTick(() => {
-        this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight
+        if (this.$refs.wrapper) {
+          this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight
+        }
       })
     },
   },

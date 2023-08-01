@@ -1,7 +1,14 @@
 <template>
   <div class="w-1/4 p-2 border-r border-gray-300 shrink-0">
     <div v-if="translations?.length">
-      <div v-for="translation in translations" :key="translation.id">
+      <div
+        v-for="translation in translations"
+        :key="translation.id"
+        :class="[
+          { 'bg-gray-100': currentTranslationId === translation.id.toString() },
+          'mb-3 p-1 px-2 rounded',
+        ]"
+      >
         <router-link
           :to="{ name: 'translation', params: { id: translation.id } }"
         >
@@ -28,6 +35,11 @@ export default defineComponent({
     })
 
     return { isFetching, translations: data }
+  },
+  computed: {
+    currentTranslationId() {
+      return this.$router.currentRoute?.value?.params?.id
+    },
   },
 })
 </script>
