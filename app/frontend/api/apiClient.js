@@ -1,10 +1,10 @@
-import { pickBy } from 'lodash'
 import { camelizeKeys, decamelizeKeys } from 'humps'
+import { pickBy } from 'lodash'
 
 const defaultFetch = (
   url,
   method = 'GET',
-  { params = {}, body = {}, headers = {} } = {}
+  { params = {}, body = {}, headers = {} } = {},
 ) => {
   const queryParams = pickBy(params, Boolean)
 
@@ -64,7 +64,7 @@ const post = (url, { body = {}, headers = {} } = {}) => {
     .then(processSuccessfulResponse)
     .then(camelizeKeys)
     .catch((error) => {
-      if (error.headers.get('Content-Type').includes('application/json')) {
+      if (error?.headers?.get('Content-Type')?.includes('application/json')) {
         return error.json().then((json) => {
           throw json
         })

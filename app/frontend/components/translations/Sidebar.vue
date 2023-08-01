@@ -16,13 +16,14 @@
 import { defineComponent } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 
+import queryKeys from '@/helpers/queryKeys'
 import { getTranslations } from '@/api/translations'
 
 export default defineComponent({
   name: 'Sidebar',
   setup() {
     const { isFetching, data } = useQuery({
-      queryKey: ['translations'],
+      queryKey: queryKeys.translations(),
       queryFn: getTranslations,
     })
 

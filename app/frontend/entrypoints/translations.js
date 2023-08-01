@@ -1,7 +1,13 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createInput,
+  defaultConfig,
+  plugin as FormKitPlugin,
+} from '@formkit/vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 
+import FormKitAutocomplete from '@/ui/FormKitAutocomplete.vue'
 import Home from '@/views/Home.vue'
 import Translation from '@/views/Translation.vue'
 import Translations from '@/views/Translations.vue'
@@ -29,6 +35,17 @@ app.use(VueQueryPlugin, {
     },
   },
 })
+
+app.use(
+  FormKitPlugin,
+  defaultConfig({
+    inputs: {
+      autocomplete: createInput(FormKitAutocomplete, {
+        props: ['options', 'label', 'value'],
+      }),
+    },
+  }),
+)
 
 app.use(router)
 app.mount('#translations')
