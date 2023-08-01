@@ -7,5 +7,7 @@ class TranslatePhraseWorker
     return unless translation_phrase
 
     Translations::TranslatePhrase.call(translation_phrase: translation_phrase)
+
+    translation_phrase.broadcast_update
   end
 end
