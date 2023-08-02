@@ -47,5 +47,14 @@ app.use(
   }),
 )
 
+const root = document.getElementById('translations')
+
+try {
+  const currentUser = JSON.parse(root.dataset.currentUser)
+  app.config.globalProperties.$currentUser = currentUser
+} catch {
+  app.config.globalProperties.$currentUser = {}
+}
+
 app.use(router)
-app.mount('#translations')
+app.mount(root)

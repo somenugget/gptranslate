@@ -1,5 +1,5 @@
 <template>
-  <div class="border h-1/6">
+  <div class="border">
     <FormKit
       v-slot="{ state }"
       type="form"

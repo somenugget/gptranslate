@@ -16,6 +16,8 @@ module Translations
         }
       )
 
+      pp response
+
       results = response['choices'].map { |choice| choice['message']['content'] }.reject do |content|
         content == CANT_TRANSLATE_PLACEHOLDER
       end

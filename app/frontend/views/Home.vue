@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full h-screen">
     <div class="h-5/6"></div>
     <TranslationsForm />
   </div>

@@ -27,4 +27,8 @@ class Translation < ApplicationRecord
     'fi' => 'Finnish',
     'da' => 'Danish'
   }.freeze
+
+  def phrases
+    translation_phrases
+  end
 end

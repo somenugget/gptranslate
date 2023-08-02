@@ -1,8 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  get 'translation_phrases/create'
   root 'translations#index'
+  get 't/*path', to: 'translations#index'
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
@@ -17,6 +17,4 @@ Rails.application.routes.draw do
 
   resources :translations
   resources :translation_phrases
-
-  get '*path', to: 'translations#index'
 end
