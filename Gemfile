@@ -31,6 +31,8 @@ gem 'redis', '~> 4.0'
 gem 'sidekiq'
 
 gem 'ruby-openai'
+gem 'tiktoken_ruby'
+
 gem 'service_actor'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]

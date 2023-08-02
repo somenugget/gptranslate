@@ -257,6 +257,7 @@ GEM
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     thor (1.2.2)
+    tiktoken_ruby (0.0.5-arm64-darwin)
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -305,6 +306,7 @@ DEPENDENCIES
   service_actor
   sidekiq
   stimulus-rails
+  tiktoken_ruby
   vite_rails
   web-console
 
