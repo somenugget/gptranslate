@@ -32,7 +32,7 @@
       <MenuButton
         class="flex w-full items-center justify-between gap-x-3 rounded-md p-2 leading-6 text-gray-700 hover:bg-gray-100"
       >
-        <span>
+        <span class="truncate">
           {{ isUser ? fullName : 'Guest' }}
         </span>
         <EllipsisVerticalIcon class="h-5 w-5" />

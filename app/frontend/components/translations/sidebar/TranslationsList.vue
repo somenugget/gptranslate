@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="overflow-auto">
     <div v-if="translations?.length" class="flex flex-col gap-y-3">
       <router-link
         v-for="translation in translations"

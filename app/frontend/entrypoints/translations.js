@@ -51,9 +51,12 @@ const root = document.getElementById('translations')
 
 try {
   const currentUser = JSON.parse(root.dataset.currentUser)
+  const languages = JSON.parse(root.dataset.languages)
   app.config.globalProperties.$currentUser = currentUser
+  app.config.globalProperties.$languages = languages
 } catch {
   app.config.globalProperties.$currentUser = {}
+  app.config.globalProperties.$languages = {}
 }
 
 app.use(router)

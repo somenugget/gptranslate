@@ -17,6 +17,7 @@
     id='translations'
     class="flex h-screen"
     data-current-user="<%= camelize_keys(current_or_guest_user.as_json).to_json %>"
+    data-languages='<%= Translation::LANGUAGES.to_json %>'
   ></main>
 </body>
 </html>

@@ -1,35 +1,46 @@
 <template>
-  <div class="">
+  <div class="pt-2">
     <FormKit
-      v-slot="{ state }"
+      v-slot="{ state, value }"
       type="form"
       submit-label="Translate"
       :value="{
         langFrom: 'ge',
         langTo: 'en',
       }"
+      :classes="{ form: 'flex flex-col gap-2' }"
       :actions="false"
       @submit="submit"
     >
       <FormKitMessages />
       <div class="flex items-center gap-2">
-        <span>Translate from</span>
+        <span class="text-sm text-gray-600">Translate from</span>
         <FormKit
           id="langFrom"
           type="select"
           name="langFrom"
           validation="required"
-          :classes="{ outer: 'inline-block' }"
-          :options="['en', 'ge', 'fr']"
+          :classes="{
+            outer: 'inline-block',
+            input:
+              'px-2 py-1 border border-slate-100 text-sm text-gray-600 font-medium cursor-pointer',
+          }"
+          :options="languages"
+          @input="setLanguages('langFrom', value.langFrom)"
         />
-        <span>to</span>
+        <span class="text-sm text-gray-600">to</span>
         <FormKit
           id="langTo"
           type="select"
           name="langTo"
           validation="required"
-          :classes="{ outer: 'inline-block' }"
-          :options="['en', 'ge', 'fr']"
+          :classes="{
+            outer: 'inline-block',
+            input:
+              'px-2 py-1 border border-slate-100 text-sm text-gray-600 font-medium',
+          }"
+          :options="languages"
+          @input="setLanguages('langTo', value.langTo)"
         />
       </div>
 
@@ -71,6 +82,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { getNode } from '@formkit/core'
 import { FormKitMessages } from '@formkit/vue'
 import { PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -96,15 +108,23 @@ export default defineComponent({
 
     return { queryClient, textareaRef, textareaMinHeight }
   },
+  computed: {
+    languages() {
+      return this.$languages
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.textUpdate)
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.textUpdate)
+  },
   methods: {
     textUpdate() {
       const maxHeight = 300
       this.$refs.hiddenTextarea.value = this.textareaRef.value
+      this.$refs.hiddenTextarea.style.width = `${this.textareaRef.offsetWidth}px`
 
-      console.log(
-        this.textareaMinHeight,
-        this.$refs.hiddenTextarea.scrollHeight,
-      )
       const newCalculatedHeight = Math.max(
         this.textareaMinHeight,
         this.$refs.hiddenTextarea.scrollHeight,
@@ -120,6 +140,16 @@ export default defineComponent({
         this.textareaRef = document.getElementById('textFrom')
         this.textareaMinHeight = this.textareaRef.scrollHeight
       })
+    },
+    setLanguages(changedNodeName, prevValue) {
+      const changedNode = getNode(changedNodeName)
+      const otherNode = getNode(
+        changedNodeName === 'langFrom' ? 'langTo' : 'langFrom',
+      )
+
+      if (changedNode.value === otherNode.value) {
+        otherNode.input(prevValue)
+      }
     },
     submit(data, node) {
       const translationId = this.$router.currentRoute?.value?.params?.id
