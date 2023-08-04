@@ -7,7 +7,8 @@
         :to="{ name: 'translation', params: { id: translation.id } }"
         :class="[
           {
-            'bg-gray-100': currentTranslationId === translation.id.toString(),
+            'bg-gray-200 hover:bg-gray-200':
+              currentTranslationId === translation.id.toString(),
           },
           ' flex gap-x-3 rounded-md p-2 leading-6 text-gray-700 hover:bg-gray-100',
         ]"

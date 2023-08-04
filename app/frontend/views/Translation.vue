@@ -1,5 +1,5 @@
 <template>
-  <TranslationsList :translation="translation" />
+  <PhrasesList :translation="translation" />
   <TranslationsForm :translation="translation" />
 </template>
 
@@ -9,8 +9,8 @@ import { useRoute } from 'vue-router'
 import * as ActionCable from '@rails/actioncable'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 
+import PhrasesList from '@/components/translations/PhrasesList.vue'
 import TranslationsForm from '@/components/translations/TranslationsForm.vue'
-import TranslationsList from '@/components/translations/TranslationsList.vue'
 import { updateTranslationPhraseInCache } from '@/helpers/cache'
 import queryKeys from '@/helpers/queryKeys'
 import { getTranslation } from '@/api/translations'
@@ -18,7 +18,7 @@ import { getTranslation } from '@/api/translations'
 export default defineComponent({
   name: 'Translation',
   components: {
-    TranslationsList,
+    PhrasesList,
     TranslationsForm,
   },
   setup() {
