@@ -1,15 +1,20 @@
 <template>
   <Sidebar />
-  <router-view />
+  <MainSectionWrapper>
+    <router-view />
+  </MainSectionWrapper>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
+import MainSectionWrapper from '@/components/translations/MainSectionWrapper.vue'
 import Sidebar from '@/components/translations/Sidebar.vue'
-import { useQuery } from '@tanstack/vue-query'
+
 export default defineComponent({
-  name: 'translations',
+  name: 'Translations',
   components: {
+    MainSectionWrapper,
     Sidebar,
   },
 

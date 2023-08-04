@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
+    'plugin:tailwindcss/recommended',
+    'prettier',
+  ],
   plugins: ['simple-import-sort', 'vue'],
   env: {
     browser: true,

@@ -11,6 +11,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        'inner-right': 'inset -5px 0 15px -15px rgba(0, 0, 0, 0.25)',
+      },
     },
   },
   plugins: [

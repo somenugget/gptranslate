@@ -1,23 +1,41 @@
 <template>
-  <div>
+  <div class="relative">
     <Menu>
-      <MenuItems class="absolute bottom-10">
-        <MenuItem v-if="isUser">
-          <form action="/users/sign_out" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <CsrfHiddenInput />
-            <button type="submit" @click.stop>Log out</button>
-          </form>
-        </MenuItem>
-        <MenuItem v-else>
-          <a href="/auth">Log in</a>
-        </MenuItem>
-      </MenuItems>
-      <MenuButton class="flex justify-between items-center w-full px-1">
+      <transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+      >
+        <MenuItems
+          class="absolute bottom-11 w-full rounded-md border bg-white p-2"
+        >
+          <MenuItem
+            v-if="isUser"
+            class="flex w-full items-center justify-between gap-x-3 rounded-md leading-6 text-gray-700 hover:bg-gray-100"
+          >
+            <form action="/users/sign_out" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <CsrfHiddenInput />
+              <button type="submit" class="w-full p-2 text-left" @click.stop>
+                Log out
+              </button>
+            </form>
+          </MenuItem>
+          <MenuItem v-else>
+            <a href="/auth">Log in</a>
+          </MenuItem>
+        </MenuItems>
+      </transition>
+      <MenuButton
+        class="flex w-full items-center justify-between gap-x-3 rounded-md p-2 leading-6 text-gray-700 hover:bg-gray-100"
+      >
         <span>
           {{ isUser ? fullName : 'Guest' }}
         </span>
-        <EllipsisVerticalIcon class="w-5 h-5" />
+        <EllipsisVerticalIcon class="h-5 w-5" />
       </MenuButton>
     </Menu>
   </div>

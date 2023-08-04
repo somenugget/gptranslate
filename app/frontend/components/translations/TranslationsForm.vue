@@ -1,5 +1,5 @@
 <template>
-  <div class="border">
+  <div class="">
     <FormKit
       v-slot="{ state }"
       type="form"
@@ -12,7 +12,7 @@
       @submit="submit"
     >
       <FormKitMessages />
-      <div class="flex gap-2 items-center">
+      <div class="flex items-center gap-2">
         <span>Translate from</span>
         <FormKit
           id="langFrom"

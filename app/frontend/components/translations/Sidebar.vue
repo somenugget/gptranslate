@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-1/4 h-screen p-2 border-r border-gray-300 shrink-0 flex flex-col justify-between"
+    class="flex h-screen w-1/4 shrink-0 flex-col justify-between border-r bg-slate-50 p-2 shadow-inner-right"
   >
     <TranslationsList />
     <CurrentUser />

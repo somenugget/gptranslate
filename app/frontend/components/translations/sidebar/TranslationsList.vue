@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div v-if="translations?.length">
-      <div
+    <div v-if="translations?.length" class="flex flex-col gap-y-3">
+      <router-link
         v-for="translation in translations"
         :key="translation.id"
+        :to="{ name: 'translation', params: { id: translation.id } }"
         :class="[
-          { 'bg-gray-100': currentTranslationId === translation.id.toString() },
-          'mb-3 p-1 px-2 rounded',
+          {
+            'bg-gray-100': currentTranslationId === translation.id.toString(),
+          },
+          ' flex gap-x-3 rounded-md p-2 leading-6 text-gray-700 hover:bg-gray-100',
         ]"
       >
-        <router-link
-          :to="{ name: 'translation', params: { id: translation.id } }"
-        >
-          {{ translation.name }}
-        </router-link>
-      </div>
+        {{ translation.name }}
+      </router-link>
     </div>
   </div>
 </template>

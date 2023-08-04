@@ -1,8 +1,6 @@
 <template>
-  <div class="flex flex-col w-full h-screen">
-    <div class="h-5/6"></div>
-    <TranslationsForm />
-  </div>
+  <div></div>
+  <TranslationsForm />
 </template>
 
 <script>

@@ -1,8 +1,6 @@
 <template>
-  <div class="flex flex-col w-full h-screen justify-between">
-    <TranslationsList :translation="translation" />
-    <TranslationsForm :translation="translation" />
-  </div>
+  <TranslationsList :translation="translation" />
+  <TranslationsForm :translation="translation" />
 </template>
 
 <script>
@@ -27,10 +25,12 @@ export default defineComponent({
     const queryClient = useQueryClient()
     const route = useRoute()
     const translationId = ref(route.params.id)
+    const previousTranslationId = ref(route.params.id)
 
     watch(
       () => route.params.id,
       () => {
+        previousTranslationId.value = translationId.value
         translationId.value = route.params.id
       },
     )
@@ -38,6 +38,11 @@ export default defineComponent({
     const { isFetching, data } = useQuery({
       queryKey: queryKeys.translation(translationId),
       queryFn: () => getTranslation({ id: translationId.value }),
+      placeholderData: () => {
+        return queryClient.getQueryData(
+          queryKeys.translation(previousTranslationId),
+        )
+      },
     })
 
     return {
