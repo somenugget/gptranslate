@@ -1,6 +1,8 @@
 class TranslatePhraseWorker
   include Sidekiq::Worker
 
+  sidekiq_options retry: 3
+
   def perform(phrase_id)
     translation_phrase = TranslationPhrase.where(status: :pending).find_by(id: phrase_id)
 

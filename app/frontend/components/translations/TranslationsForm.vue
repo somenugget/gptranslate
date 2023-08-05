@@ -57,7 +57,7 @@
             message: 'hidden',
           }"
           validation="required"
-          @input="textUpdate"
+          @input="textareaHeightUpdate"
           @node="setTextareaRef"
         />
         <FormKit type="submit" :disabled="!state.valid">
@@ -114,13 +114,13 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.addEventListener('resize', this.textUpdate)
+    window.addEventListener('resize', this.textareaHeightUpdate)
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.textUpdate)
+    window.removeEventListener('resize', this.textareaHeightUpdate)
   },
   methods: {
-    textUpdate() {
+    textareaHeightUpdate() {
       const maxHeight = 300
       this.$refs.hiddenTextarea.value = this.textareaRef.value
       this.$refs.hiddenTextarea.style.width = `${this.textareaRef.offsetWidth}px`
@@ -160,6 +160,10 @@ export default defineComponent({
       })
         .then((translationPhrase) => {
           node.reset()
+
+          this.$nextTick(() => {
+            this.textareaHeightUpdate()
+          })
 
           if (translationId) {
             addTranslationPhraseToCache({

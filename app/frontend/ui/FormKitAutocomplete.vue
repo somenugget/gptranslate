@@ -21,9 +21,6 @@ export default defineComponent({
       required: true,
     },
   },
-  mounted() {
-    console.log(this.context.value)
-  },
   methods: {
     setValue(value) {
       this.context.node.input(value)

@@ -1,7 +1,7 @@
 class Translation < ApplicationRecord
   belongs_to :user
 
-  has_many :translation_phrases
+  has_many :translation_phrases, -> { order(:created_at) }
 
   LANGUAGES = {
     'en' => 'English',

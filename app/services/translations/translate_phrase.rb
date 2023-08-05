@@ -1,7 +1,9 @@
 module Translations
   class TranslatePhrase < Service
     MAX_TOKENS_COUNT = 3000
-    CANT_TRANSLATE_PLACEHOLDER = '---'.freeze
+    CANT_TRANSLATE_PLACEHOLDER = '=-=-=-=-='.freeze
+
+    TranslationFailedError = Class.new(StandardError)
 
     # @!method translation_phrase
     #  return [TranslationPhrase]
@@ -27,7 +29,7 @@ module Translations
       "Translate from #{Translation::LANGUAGES[lang_from]} " \
         "to #{Translation::LANGUAGES[lang_to]}. " \
         'return only the translated text or ' \
-        "return #{CANT_TRANSLATE_PLACEHOLDER} if you can't translate.\n\n" \
+        "return '#{CANT_TRANSLATE_PLACEHOLDER}' and the reason if you can't translate.\n\n" \
         "#{text}" \
     end
 
@@ -46,7 +48,7 @@ module Translations
         pp response
 
         response['choices'].map { |choice| choice['message']['content'] }.reject do |content|
-          content == CANT_TRANSLATE_PLACEHOLDER
+          content.include? CANT_TRANSLATE_PLACEHOLDER
         end
       end
     end

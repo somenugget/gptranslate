@@ -5,7 +5,7 @@
         <span class="text-gray-500">{{ phrase.langFrom }}</span>
       </div>
       <div class="group relative">
-        <p class="mt-1 leading-6">
+        <p class="mt-1 whitespace-pre-wrap leading-6">
           {{ phrase.textFrom }}
         </p>
       </div>
@@ -24,7 +24,7 @@
         </a>
       </div>
       <div class="group relative">
-        <p class="mt-1 leading-6">
+        <p class="mt-1 whitespace-pre-wrap leading-6">
           {{ phrase.textTo }}
         </p>
       </div>
@@ -55,9 +55,6 @@ export default defineComponent({
         'bg-yellow-100 text-yellow-800': this.phrase?.status === 'pending',
       }
     },
-  },
-  mounted() {
-    console.log(this.phrase)
   },
 })
 </script>
