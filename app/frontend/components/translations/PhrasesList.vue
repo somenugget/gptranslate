@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-y-auto">
+  <div class="overflow-y-auto border-b border-gray-300 pb-2">
     <div v-if="translation" ref="wrapper" class="flex flex-col gap-5">
       <Phrase
         v-for="phrase in translation.translationPhrases"
