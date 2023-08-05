@@ -1,7 +1,7 @@
 module Translations
   class TranslatePhrase < Service
     MAX_TOKENS_COUNT = 3000
-    CANT_TRANSLATE_PLACEHOLDER = '=-=-=-=-='.freeze
+    CANT_TRANSLATE_PLACEHOLDER = '=-=-=-='.freeze
 
     TranslationFailedError = Class.new(StandardError)
 
