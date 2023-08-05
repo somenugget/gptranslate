@@ -29,7 +29,7 @@ module Translations
       "Translate from #{Translation::LANGUAGES[lang_from]} " \
         "to #{Translation::LANGUAGES[lang_to]}. " \
         'return only the translated text or ' \
-        "return '#{CANT_TRANSLATE_PLACEHOLDER}' and the reason if you can't translate.\n\n" \
+        "If you can't translate return '#{CANT_TRANSLATE_PLACEHOLDER}'.\n\n" \
         "#{text}" \
     end
 

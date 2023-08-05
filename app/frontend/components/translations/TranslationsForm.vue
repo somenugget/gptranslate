@@ -1,8 +1,10 @@
 <template>
   <div class="pt-2">
     <FormKit
-      v-slot="{ state, value }"
+      id="translationForm"
+      v-slot="{ state, value, node }"
       type="form"
+      name="translationForm"
       submit-label="Translate"
       :value="{
         langFrom: 'ge',
@@ -56,9 +58,10 @@
               'block w-full overflow-y-hidden rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-emerald-400 resize-none',
             message: 'hidden',
           }"
-          validation="required"
+          validation="required:trim"
           @input="textareaHeightUpdate"
           @node="setTextareaRef"
+          @keydown.enter="addNewlineOrSubmit"
         />
         <FormKit type="submit" :disabled="!state.valid">
           <template #input>
@@ -151,6 +154,31 @@ export default defineComponent({
         otherNode.input(prevValue)
       }
     },
+    addNewlineOrSubmit(e) {
+      e.preventDefault()
+
+      if (e.key !== 'Enter') {
+        return
+      }
+
+      if (e.ctrlKey) {
+        this.addNewline()
+      } else {
+        const translationForm = this.$formkit.get('translationForm')
+
+        if (translationForm.context.state.valid) {
+          translationForm.submit()
+        }
+      }
+    },
+    addNewline() {
+      const textFromNode = getNode('textFrom')
+      const newValue = textFromNode.value ? textFromNode.value + '\n' : '\n'
+
+      getNode('textFrom').input(newValue)
+
+      this.textareaHeightUpdate()
+    },
     submit(data, node) {
       const translationId = this.$router.currentRoute?.value?.params?.id
 
@@ -163,6 +191,10 @@ export default defineComponent({
 
           this.$nextTick(() => {
             this.textareaHeightUpdate()
+
+            setTimeout(function () {
+              document.getElementById('textFrom').focus()
+            }, 0)
           })
 
           if (translationId) {
