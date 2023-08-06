@@ -14,6 +14,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :translations, only: %i[index show create update destroy]
-    resources :phrases, only: %i[create update destroy]
+    resources :phrases, only: %i[create update destroy] do
+      member do
+        post :retry
+      end
+    end
   end
 end

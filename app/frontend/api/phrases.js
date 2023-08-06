@@ -13,4 +13,8 @@ const createPhrase = ({ translationId = null, langFrom, langTo, textFrom }) => {
   })
 }
 
-export { createPhrase }
+const retryPhraseTranslation = ({ phraseId }) => {
+  return post(`/api/phrases/${phraseId}/retry`)
+}
+
+export { createPhrase, retryPhraseTranslation }

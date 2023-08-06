@@ -22,6 +22,13 @@ module Api
       end
     end
 
+    def retry
+      phrase = Phrase.find(params[:id])
+      TranslatePhraseWorker.perform_async(phrase.id)
+
+      render json: phrase
+    end
+
     private
 
     def phrase_params

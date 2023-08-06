@@ -14,14 +14,15 @@
     <div class="flex w-1/2 flex-col">
       <div class="flex items-center justify-between gap-x-4 text-xs">
         <span class="text-gray-500">{{ phrase.langTo }}</span>
-        <a
+        <button
           v-if="showBadge"
-          href="#"
-          class="rounded-full px-2 py-1 font-medium text-gray-600"
+          class="pointer-events-none cursor-default rounded-full px-2 py-1 font-medium text-gray-600 transition"
           :class="badgeClass"
+          :title="badgeTitle"
+          @click="retry"
         >
-          {{ phrase.status }}
-        </a>
+          {{ badgeStatus }}
+        </button>
       </div>
       <div class="group relative">
         <p class="mt-1 whitespace-pre-wrap leading-6">
@@ -34,6 +35,11 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { startCase } from 'lodash'
+
+import { updatePhraseInCache } from '@/helpers/cache'
+import { retryPhraseTranslation } from '@/api/phrases'
 
 export default defineComponent({
   name: 'Phrase',
@@ -43,17 +49,48 @@ export default defineComponent({
       default: undefined,
     },
   },
+  setup(props) {
+    const queryClient = useQueryClient()
+    const { mutateAsync } = useMutation({
+      mutationFn: () => {
+        retryPhraseTranslation({ phraseId: props.phrase.id })
+      },
+    })
+
+    return { queryClient, retryPhraseTranslation: mutateAsync }
+  },
   computed: {
     showBadge() {
-      return (
-        this.phrase?.status === 'failed' || this.phrase?.status === 'pending'
-      )
+      return ['failed', 'pending', 'in_progress'].includes(this.phrase?.status)
+    },
+    badgeTitle() {
+      return this.phrase?.status === 'failed' ? 'Click to retry' : ''
     },
     badgeClass() {
       return {
-        'bg-red-100 text-red-800': this.phrase?.status === 'failed',
-        'bg-yellow-100 text-yellow-800': this.phrase?.status === 'pending',
+        'bg-red-100 text-red-800 ': this.phrase?.status === 'failed',
+        'bg-yellow-100 text-yellow-800 hover:bg-red-200 active:translate-y-0.5 pointer-events-auto cursor-pointer':
+          this.phrase?.status === 'pending',
+        'bg-emerald-200 text-emerald-800':
+          this.phrase?.status === 'in_progress',
       }
+    },
+    badgeStatus() {
+      return startCase(this.phrase?.status).toLowerCase()
+    },
+  },
+  methods: {
+    retry() {
+      updatePhraseInCache({
+        queryClient: this.queryClient,
+        phrase: {
+          id: this.phrase.id,
+          translationId: this.phrase.translationId,
+          status: 'pending',
+        },
+      })
+
+      this.retryPhraseTranslation()
     },
   },
 })

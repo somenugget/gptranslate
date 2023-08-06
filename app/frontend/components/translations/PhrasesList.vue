@@ -25,12 +25,15 @@ export default defineComponent({
     },
   },
   watch: {
-    translation() {
-      this.$nextTick(() => {
-        if (this.$refs.wrapper) {
-          this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight
-        }
-      })
+    translation(next, prev) {
+      // when new phrase was added
+      if (!prev || next?.phrases?.length > prev?.phrases?.length) {
+        this.$nextTick(() => {
+          if (this.$refs.wrapper) {
+            this.$refs.wrapper.scrollTop = this.$refs.wrapper.scrollHeight
+          }
+        })
+      }
     },
   },
 })
