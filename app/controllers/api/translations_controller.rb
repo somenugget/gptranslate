@@ -9,7 +9,7 @@ module Api
     def show
       @translation = @translations.find(params[:id])
 
-      render json: @translation.as_json(include: :translation_phrases)
+      render json: @translation.as_json(include: :phrases)
     end
 
     def create; end

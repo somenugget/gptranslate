@@ -10,11 +10,10 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
 
+  resources :translations
+
   namespace :api do
     resources :translations, only: %i[index show create update destroy]
-    resources :translation_phrases, only: %i[create update destroy]
+    resources :phrases, only: %i[create update destroy]
   end
-
-  resources :translations
-  resources :translation_phrases
 end

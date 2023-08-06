@@ -5,21 +5,21 @@ module Translations
 
     TranslationFailedError = Class.new(StandardError)
 
-    # @!method translation_phrase
-    #  return [TranslationPhrase]
-    input :translation_phrase, type: [TranslationPhrase]
+    # @!method phrase
+    #  return [Phrase]
+    input :phrase, type: [Phrase]
 
     def call
-      prompts = text_parts(translation_phrase.text_from).map do |text_part|
-        generate_prompt(translation_phrase.lang_from, translation_phrase.lang_to, text_part)
+      prompts = text_parts(phrase.text_from).map do |text_part|
+        generate_prompt(phrase.lang_from, phrase.lang_to, text_part)
       end
 
       results = translate_prompts(prompts)
 
       if results.any?
-        translation_phrase.update!(text_to: results.join('. '), status: :translated)
+        phrase.update!(text_to: results.join('. '), status: :translated)
       else
-        translation_phrase.update!(status: :failed)
+        phrase.update!(status: :failed)
       end
     end
 
@@ -28,8 +28,8 @@ module Translations
     def generate_prompt(lang_from, lang_to, text)
       "Translate from #{Translation::LANGUAGES[lang_from]} " \
         "to #{Translation::LANGUAGES[lang_to]}. " \
-        'return only the translated text or ' \
-        "If you can't translate return '#{CANT_TRANSLATE_PLACEHOLDER}'.\n\n" \
+        'return only the translated text.' \
+        "If you can't translate return '#{CANT_TRANSLATE_PLACEHOLDER}' and the reason.\n\n" \
         "#{text}" \
     end
 

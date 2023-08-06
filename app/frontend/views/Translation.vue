@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 
 import PhrasesList from '@/components/translations/PhrasesList.vue'
 import TranslationsForm from '@/components/translations/TranslationsForm.vue'
-import { updateTranslationPhraseInCache } from '@/helpers/cache'
+import { updatePhraseInCache } from '@/helpers/cache'
 import queryKeys from '@/helpers/queryKeys'
 import { getTranslation } from '@/api/translations'
 
@@ -68,12 +68,12 @@ export default defineComponent({
         disconnected() {
           console.log('Disconnected')
         },
-        received(translationPhrase) {
-          console.log('Received some data:', translationPhrase)
-          updateTranslationPhraseInCache({
+        received(phrase) {
+          console.log('Received some data:', phrase)
+          updatePhraseInCache({
             queryClient,
             translationId,
-            translationPhrase,
+            phrase,
           })
         },
       },

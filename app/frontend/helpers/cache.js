@@ -2,43 +2,38 @@ import { camelizeKeys } from 'humps'
 
 import queryKeys from '@/helpers/queryKeys'
 
-export const addTranslationPhraseToCache = ({
-  queryClient,
-  translationPhrase,
-}) => {
-  const translationId = translationPhrase.translationId
+export const addPhraseToCache = ({ queryClient, phrase }) => {
+  const translationId = phrase.translationId
   const translationKey = queryKeys.translation(translationId)
   const translation = queryClient.getQueryData(translationKey)
 
   queryClient.setQueryData(translationKey, {
     ...translation,
-    translationPhrases: [...translation.translationPhrases, translationPhrase],
+    phrases: [...translation.phrases, phrase],
   })
 }
 
-export const updateTranslationPhraseInCache = ({
+export const updatePhraseInCache = ({
   queryClient,
-  translationPhrase,
+  phrase,
   translationId: givenTranslationId,
 }) => {
-  const translationId = givenTranslationId || translationPhrase.translationId
+  const translationId = givenTranslationId || phrase.translationId
   const translationKey = queryKeys.translation(translationId)
   const translation = queryClient.getQueryData(translationKey)
 
   queryClient.setQueryData(translationKey, {
     ...translation,
-    translationPhrases: translation.translationPhrases.map(
-      (loadedTranslationPhrase) => {
-        if (loadedTranslationPhrase.id === translationPhrase.id) {
-          return {
-            ...loadedTranslationPhrase,
-            ...camelizeKeys(translationPhrase),
-          }
-        } else {
-          return loadedTranslationPhrase
+    phrases: translation.phrases.map((loadedPhrase) => {
+      if (loadedPhrase.id === phrase.id) {
+        return {
+          ...loadedPhrase,
+          ...camelizeKeys(phrase),
         }
-      },
-    ),
+      } else {
+        return loadedPhrase
+      }
+    }),
   })
 }
 

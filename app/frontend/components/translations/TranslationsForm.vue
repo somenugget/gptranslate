@@ -90,11 +90,8 @@ import { FormKitMessages } from '@formkit/vue'
 import { PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useQueryClient } from '@tanstack/vue-query'
 
-import {
-  addTranslationPhraseToCache,
-  invalidateTranslationsCache,
-} from '@/helpers/cache'
-import { createTranslationPhrase } from '@/api/translationPhrases'
+import { addPhraseToCache, invalidateTranslationsCache } from '@/helpers/cache'
+import { createPhrase } from '@/api/phrases'
 export default defineComponent({
   name: 'TranslationsForm',
   components: { FormKitMessages, PaperAirplaneIcon },
@@ -182,11 +179,11 @@ export default defineComponent({
     submit(data, node) {
       const translationId = this.$router.currentRoute?.value?.params?.id
 
-      return createTranslationPhrase({
+      return createPhrase({
         translationId,
         ...data,
       })
-        .then((translationPhrase) => {
+        .then((phrase) => {
           node.reset()
 
           this.$nextTick(() => {
@@ -198,15 +195,15 @@ export default defineComponent({
           })
 
           if (translationId) {
-            addTranslationPhraseToCache({
+            addPhraseToCache({
               queryClient: this.queryClient,
-              translationPhrase,
+              phrase,
             })
           } else {
             invalidateTranslationsCache({ queryClient: this.queryClient })
             this.$router.push({
               name: 'translation',
-              params: { id: translationPhrase.translationId },
+              params: { id: phrase.translationId },
             })
           }
         })

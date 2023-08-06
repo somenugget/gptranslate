@@ -1,8 +1,8 @@
 <template>
-  <div ref="wrapper" class="overflow-y-auto border-b border-gray-300 pb-2">
+  <div ref="wrapper" class="grow overflow-y-auto border-b border-gray-300 pb-2">
     <div v-if="translation" class="flex flex-col gap-5">
       <Phrase
-        v-for="phrase in translation.translationPhrases"
+        v-for="phrase in translation.phrases"
         :key="phrase.id"
         :phrase="phrase"
       />

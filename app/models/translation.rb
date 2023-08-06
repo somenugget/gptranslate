@@ -1,7 +1,7 @@
 class Translation < ApplicationRecord
   belongs_to :user
 
-  has_many :translation_phrases, -> { order(:created_at) }
+  has_many :phrases, -> { order(:created_at) }
 
   LANGUAGES = {
     'en' => 'English',
@@ -28,8 +28,4 @@ class Translation < ApplicationRecord
     'fi' => 'Finnish',
     'da' => 'Danish'
   }.freeze
-
-  def phrases
-    translation_phrases
-  end
 end
