@@ -55,7 +55,7 @@
           placeholder="Your text to translate"
           :classes="{
             input:
-              'block w-full overflow-y-hidden rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-emerald-400 resize-none',
+              'block w-full transition-[height] duration-100 overflow-y-hidden rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-emerald-400 resize-none',
             message: 'hidden',
           }"
           validation="required:trim"
@@ -132,8 +132,9 @@ export default defineComponent({
       const newHeight = Math.min(newCalculatedHeight, maxHeight)
 
       this.textareaRef.style.height = `${newHeight}px`
+      console.log(newHeight, maxHeight)
       this.textareaRef.style.overflowY =
-        newHeight === maxHeight ? 'auth' : 'hidden'
+        newHeight === maxHeight ? 'auto' : 'hidden'
     },
     setTextareaRef(node) {
       node.settled.then(() => {

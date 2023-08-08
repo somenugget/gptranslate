@@ -68,8 +68,9 @@ export default defineComponent({
     },
     badgeClass() {
       return {
-        'bg-red-100 text-red-800 ': this.phrase?.status === 'failed',
-        'bg-yellow-100 text-yellow-800 hover:bg-red-200 active:translate-y-0.5 pointer-events-auto cursor-pointer':
+        'bg-red-100 text-red-800 pointer-events-auto cursor-pointer active:translate-y-0.5':
+          this.phrase?.status === 'failed',
+        'bg-yellow-100 text-yellow-800 hover:bg-red-200':
           this.phrase?.status === 'pending',
         'bg-emerald-200 text-emerald-800':
           this.phrase?.status === 'in_progress',
