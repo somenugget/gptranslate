@@ -14,5 +14,7 @@ class TranslatePhraseWorker
     Translations::TranslatePhrase.call(phrase: phrase)
 
     phrase.broadcast_update
+
+    UpdateLanguageUsageWorker.perform_async(phrase.translation.user_id)
   end
 end
