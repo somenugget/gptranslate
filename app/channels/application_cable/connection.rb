@@ -9,7 +9,7 @@ module ApplicationCable
     private
 
     def find_verified_user
-      verified_user = env['warden'].user
+      verified_user = env['warden'].user || User.find_by(id: cookies.encrypted[:guest_id])
 
       return verified_user if verified_user
 

@@ -9,26 +9,15 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
 
 import CurrentUser from '@/components/translations/CurrentUser.vue'
 import TranslationsList from '@/components/translations/sidebar/TranslationsList.vue'
-import queryKeys from '@/helpers/queryKeys'
-import { getTranslations } from '@/api/translations'
 
 export default defineComponent({
   name: 'Sidebar',
   components: {
     TranslationsList,
     CurrentUser,
-  },
-  setup() {
-    const { isFetching, data } = useQuery({
-      queryKey: queryKeys.translations(),
-      queryFn: getTranslations,
-    })
-
-    return { isFetching, translations: data }
   },
   computed: {
     currentTranslationId() {

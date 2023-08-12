@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import {
   createInput,
@@ -52,7 +52,7 @@ const root = document.getElementById('translations')
 try {
   const currentUser = JSON.parse(root.dataset.currentUser)
   const languages = JSON.parse(root.dataset.languages)
-  app.config.globalProperties.$currentUser = currentUser
+  app.config.globalProperties.$currentUser = reactive(currentUser)
   app.config.globalProperties.$languages = languages
 } catch {
   app.config.globalProperties.$currentUser = {}

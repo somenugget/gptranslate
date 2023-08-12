@@ -2,13 +2,13 @@
   <div class="pt-2">
     <FormKit
       id="translationForm"
-      v-slot="{ state, value, node }"
+      v-slot="{ state, value }"
       type="form"
       name="translationForm"
       submit-label="Translate"
       :value="{
-        langFrom: 'ge',
-        langTo: 'en',
+        langFrom: $currentUser.settings.languageFrom || languages[0],
+        langTo: $currentUser.settings.languageTo || languages[1],
       }"
       :classes="{ form: 'flex flex-col gap-2' }"
       :actions="false"
@@ -185,7 +185,14 @@ export default defineComponent({
         ...data,
       })
         .then((phrase) => {
-          node.reset()
+          this.$currentUser.settings.languageFrom = data.langFrom
+          this.$currentUser.settings.languageTo = data.langTo
+
+          node.reset({
+            textFrom: '',
+            langFrom: data.langFrom,
+            langTo: data.langTo,
+          })
 
           this.$nextTick(() => {
             this.textareaHeightUpdate()

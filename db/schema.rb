@@ -173,6 +173,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_144349) do
     t.string "last_name"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
+    t.jsonb "settings", default: {}
+    t.jsonb "language_usages", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

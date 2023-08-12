@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :authorizations, dependent: :destroy
   has_many :translations, dependent: :destroy
 
+  store_accessor :settings, :language_from, :language_to, suffix: :setting
+
   class << self
     def from_omniauth(auth) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       authorization = Authorization.where(

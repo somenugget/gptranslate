@@ -14,6 +14,10 @@ module Api
       end
 
       if phrase.persisted?
+        current_or_guest_user.language_from_setting = phrase.lang_from
+        current_or_guest_user.language_to_setting = phrase.lang_to
+        current_or_guest_user.save!
+
         TranslatePhraseWorker.perform_async(phrase.id)
 
         render json: phrase

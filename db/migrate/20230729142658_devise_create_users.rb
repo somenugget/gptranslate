@@ -15,6 +15,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
 
+      t.jsonb :settings, default: {}
+      t.jsonb :language_usages, default: {}
+
       t.timestamps null: false
     end
 
