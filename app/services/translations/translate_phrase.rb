@@ -48,7 +48,8 @@ module Translations
         pp response
 
         response['choices'].map { |choice| choice['message']['content'] }.reject do |content|
-          content.include? CANT_TRANSLATE_PLACEHOLDER
+          # sometimes network returns only part of the placeholder
+          content.include? CANT_TRANSLATE_PLACEHOLDER[0..4]
         end
       end
     end

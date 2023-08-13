@@ -91,6 +91,7 @@ import { PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useQueryClient } from '@tanstack/vue-query'
 
 import { addPhraseToCache, invalidateTranslationsCache } from '@/helpers/cache'
+import { sortLanguagesByUsage } from '@/helpers/languages'
 import { createPhrase } from '@/api/phrases'
 export default defineComponent({
   name: 'TranslationsForm',
@@ -110,7 +111,10 @@ export default defineComponent({
   },
   computed: {
     languages() {
-      return this.$languages
+      return sortLanguagesByUsage({
+        languages: this.$languages,
+        languageUsages: this.$currentUser.languageUsages,
+      })
     },
   },
   mounted() {
