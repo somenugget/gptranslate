@@ -23,7 +23,7 @@ const defaultFetch = (
     .then(processSuccessfulResponse)
     .then(camelizeKeys)
     .catch((error) => {
-      if (error.headers.get('Content-Type').includes('application/json')) {
+      if (error?.headers?.get('Content-Type')?.includes('application/json')) {
         return error.json().then((json) => {
           throw json
         })

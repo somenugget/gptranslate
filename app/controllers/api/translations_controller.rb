@@ -14,7 +14,15 @@ module Api
 
     def create; end
 
-    def update; end
+    def update
+      @translation = @translations.find(params[:id])
+
+      if @translation.update(translation_params)
+        render json: @translation
+      else
+        render json: { errors: @translation.errors }, status: :unprocessable_entity
+      end
+    end
 
     def destroy; end
 
@@ -22,6 +30,10 @@ module Api
 
     def set_translations
       @translations = current_or_guest_user.translations
+    end
+
+    def translation_params
+      params.require(:translation).permit(:name)
     end
   end
 end
