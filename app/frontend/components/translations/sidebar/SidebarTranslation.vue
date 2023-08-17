@@ -107,16 +107,11 @@ export default {
       }
     },
     saveTranslationName() {
-      // this.isLoading = true
-      // console.log('saveTranslationName', this.isLoading)
-      // console.log('saveTranslationName', this)
       this.update({ name: this.translationName })
         .then(() => {
-          console.log(this)
           this.initialTranslationName = this.translationName
         })
         .finally(() => {
-          // this.isLoading = false
           this.isEditing = false
         })
     },

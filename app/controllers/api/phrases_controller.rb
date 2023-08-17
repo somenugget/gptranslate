@@ -1,5 +1,11 @@
 module Api
   class PhrasesController < BaseController
+    def index
+      translation = current_or_guest_user.translations.find(params[:translation_id])
+
+      render json: translation.phrases.order(:created_at)
+    end
+
     def create
       phrase = nil
       Translation.transaction do

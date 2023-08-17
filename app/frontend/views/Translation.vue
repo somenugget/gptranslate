@@ -1,16 +1,16 @@
 <template>
-  <PhrasesList :translation="translation" />
-  <TranslationsForm :translation="translation" />
+  <PhrasesList :translation="translation" :translation-id="translationId" />
+  <TranslationsForm />
 </template>
 
 <script>
 import { defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import * as ActionCable from '@rails/actioncable'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 
 import PhrasesList from '@/components/translations/PhrasesList.vue'
 import TranslationsForm from '@/components/translations/TranslationsForm.vue'
+import { createTranslationChannelSubscription } from '@/helpers/cable'
 import { updatePhraseInCache } from '@/helpers/cache'
 import queryKeys from '@/helpers/queryKeys'
 import { getTranslation } from '@/api/translations'
@@ -55,17 +55,23 @@ export default defineComponent({
   mounted() {
     const translationId = this.translationId
     const queryClient = this.queryClient
+    let wasDisconnected = false
 
-    window.App || (window.App = {})
-    window.App.cable = ActionCable.createConsumer()
-
-    window.App.cable.subscriptions.create(
-      { channel: 'TranslationChannel', id: translationId },
-      {
+    createTranslationChannelSubscription({
+      translationId,
+      mixin: {
         connected() {
           console.log('Connected to the channel:', this)
+
+          if (wasDisconnected) {
+            queryClient.invalidateQueries({
+              queryKey: queryKeys.translation(translationId),
+              refetchType: 'all',
+            })
+          }
         },
         disconnected() {
+          wasDisconnected = true
           console.log('Disconnected')
         },
         received(phrase) {
@@ -77,7 +83,7 @@ export default defineComponent({
           })
         },
       },
-    )
+    })
   },
 })
 </script>

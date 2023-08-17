@@ -96,12 +96,6 @@ import { createPhrase } from '@/api/phrases'
 export default defineComponent({
   name: 'TranslationsForm',
   components: { FormKitMessages, PaperAirplaneIcon },
-  props: {
-    translation: {
-      type: Object,
-      default: null,
-    },
-  },
   setup() {
     const textareaRef = ref(null)
     const textareaMinHeight = ref(64)
@@ -136,7 +130,6 @@ export default defineComponent({
       const newHeight = Math.min(newCalculatedHeight, maxHeight)
 
       this.textareaRef.style.height = `${newHeight}px`
-      console.log(newHeight, maxHeight)
       this.textareaRef.style.overflowY =
         newHeight === maxHeight ? 'auto' : 'hidden'
     },

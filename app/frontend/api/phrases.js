@@ -1,4 +1,4 @@
-import { post } from '@/api/apiClient'
+import { get, post } from '@/api/apiClient'
 
 const createPhrase = ({ translationId = null, langFrom, langTo, textFrom }) => {
   return post('/api/phrases', {
@@ -17,4 +17,8 @@ const retryPhraseTranslation = ({ phraseId }) => {
   return post(`/api/phrases/${phraseId}/retry`)
 }
 
-export { createPhrase, retryPhraseTranslation }
+const translationPhrases = ({ translationId }) => {
+  return get(`/api/translations/${translationId}/phrases`)
+}
+
+export { createPhrase, retryPhraseTranslation, translationPhrases }

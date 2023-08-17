@@ -4,13 +4,10 @@ import queryKeys from '@/helpers/queryKeys'
 
 export const addPhraseToCache = ({ queryClient, phrase }) => {
   const translationId = phrase.translationId
-  const translationKey = queryKeys.translation(translationId)
-  const translation = queryClient.getQueryData(translationKey)
+  const translationPhrasesKey = queryKeys.translationPhrases(translationId)
+  const phrases = queryClient.getQueryData(translationPhrasesKey)
 
-  queryClient.setQueryData(translationKey, {
-    ...translation,
-    phrases: [...translation.phrases, phrase],
-  })
+  queryClient.setQueryData(translationPhrasesKey, [...phrases, phrase])
 }
 
 export const updatePhraseInCache = ({
@@ -19,12 +16,12 @@ export const updatePhraseInCache = ({
   translationId: givenTranslationId,
 }) => {
   const translationId = givenTranslationId || phrase.translationId
-  const translationKey = queryKeys.translation(translationId)
-  const translation = queryClient.getQueryData(translationKey)
+  const translationPhrasesKey = queryKeys.translationPhrases(translationId)
+  const phrases = queryClient.getQueryData(translationPhrasesKey)
 
-  queryClient.setQueryData(translationKey, {
-    ...translation,
-    phrases: translation.phrases.map((loadedPhrase) => {
+  queryClient.setQueryData(
+    translationPhrasesKey,
+    phrases.map((loadedPhrase) => {
       if (loadedPhrase.id === phrase.id) {
         return {
           ...loadedPhrase,
@@ -34,7 +31,7 @@ export const updatePhraseInCache = ({
         return loadedPhrase
       }
     }),
-  })
+  )
 }
 
 export const invalidateTranslationsCache = ({ queryClient }) => {
