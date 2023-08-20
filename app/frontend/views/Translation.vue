@@ -48,42 +48,53 @@ export default defineComponent({
     return {
       queryClient,
       isFetching,
-      translationId: translationId.value,
+      translationId: translationId,
       translation: data,
     }
   },
+  watch: {
+    translationId() {
+      this.connectToTranslationChannel()
+    },
+  },
   mounted() {
-    const translationId = this.translationId
-    const queryClient = this.queryClient
-    let wasDisconnected = false
+    this.subscription?.unsubscribe()
+    this.connectToTranslationChannel()
+  },
+  methods: {
+    connectToTranslationChannel() {
+      const translationId = this.translationId
+      const queryClient = this.queryClient
+      let wasDisconnected = false
 
-    createTranslationChannelSubscription({
-      translationId,
-      mixin: {
-        connected() {
-          console.log('Connected to the channel:', this)
+      this.subscription = createTranslationChannelSubscription({
+        translationId,
+        mixin: {
+          connected() {
+            console.log('Connected to the channel:', this)
 
-          if (wasDisconnected) {
-            queryClient.invalidateQueries({
-              queryKey: queryKeys.translation(translationId),
-              refetchType: 'all',
+            if (wasDisconnected) {
+              queryClient.invalidateQueries({
+                queryKey: queryKeys.translation(translationId),
+                refetchType: 'all',
+              })
+            }
+          },
+          disconnected() {
+            wasDisconnected = true
+            console.log('Disconnected')
+          },
+          received(phrase) {
+            console.log('Received some data:', phrase)
+            updatePhraseInCache({
+              queryClient,
+              translationId,
+              phrase,
             })
-          }
+          },
         },
-        disconnected() {
-          wasDisconnected = true
-          console.log('Disconnected')
-        },
-        received(phrase) {
-          console.log('Received some data:', phrase)
-          updatePhraseInCache({
-            queryClient,
-            translationId,
-            phrase,
-          })
-        },
-      },
-    })
+      })
+    },
   },
 })
 </script>

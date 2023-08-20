@@ -37,3 +37,9 @@ export const updatePhraseInCache = ({
 export const invalidateTranslationsCache = ({ queryClient }) => {
   queryClient.invalidateQueries({ queryKey: queryKeys.translations() })
 }
+
+export const addTranslationToCache = ({ queryClient, translation }) => {
+  const translationsKey = queryKeys.translations()
+  const translations = queryClient.getQueryData(translationsKey)
+  queryClient.setQueryData(translationsKey, [...translations, translation])
+}

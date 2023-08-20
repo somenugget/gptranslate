@@ -12,7 +12,11 @@ module Api
       render json: @translation.as_json(include: :phrases)
     end
 
-    def create; end
+    def create
+      translation = current_or_guest_user.translations.create
+
+      render json: translation
+    end
 
     def update
       @translation = @translations.find(params[:id])

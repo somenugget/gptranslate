@@ -26,11 +26,10 @@ module Translations
     private
 
     def generate_prompt(lang_from, lang_to, text)
-      "Translate from #{Translation::LANGUAGES[lang_from]} " \
+      "Translate text in `` from #{Translation::LANGUAGES[lang_from]} " \
         "to #{Translation::LANGUAGES[lang_to]}. " \
         'return only the translated text.' \
-        "If you can't translate return '#{CANT_TRANSLATE_PLACEHOLDER}' and the reason.\n\n" \
-        "#{text}" \
+        "If you can't translate return '#{CANT_TRANSLATE_PLACEHOLDER}' and the reason. `#{text}`"
     end
 
     def text_parts(text)

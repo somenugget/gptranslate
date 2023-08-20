@@ -14,7 +14,7 @@ const createTranslationChannelSubscription = ({
   consumer = createConsumer(),
   mixin = {},
 }) => {
-  consumer.subscriptions.create(
+  return consumer.subscriptions.create(
     { channel: 'TranslationChannel', id: translationId },
     mixin,
   )
