@@ -57,6 +57,7 @@ group :development, :test do
 
   gem 'dotenv-rails'
 
+  gem 'bundle-audit', require: false
   gem 'rubocop'
 end
 
