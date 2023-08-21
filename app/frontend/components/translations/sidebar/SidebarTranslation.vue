@@ -41,19 +41,14 @@
 </template>
 
 <script>
-import {
-  CheckIcon,
-  PencilIcon,
-  TrashIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline'
+import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useMutation } from '@tanstack/vue-query'
 
 import { updateTranslation } from '@/api/translations'
 
 export default {
   name: 'SidebarTranslation',
-  components: { PencilIcon, TrashIcon, CheckIcon, XMarkIcon },
+  components: { PencilIcon, TrashIcon, CheckIcon },
   props: {
     translation: {
       type: Object,
