@@ -59,6 +59,8 @@ group :development, :test do
 
   gem 'bundle-audit', require: false
   gem 'rubocop'
+
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
