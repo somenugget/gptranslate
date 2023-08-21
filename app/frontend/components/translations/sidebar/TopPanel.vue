@@ -1,16 +1,16 @@
 <template>
-  <div class="mb-2 flex gap-2">
+  <div class="mb-3 flex gap-2">
     <button
-      class="grow rounded-md border border-slate-400 px-2 py-1 text-left transition hover:bg-slate-200"
+      class="grow rounded-md border border-slate-300 px-3 py-1 text-left text-slate-700 transition hover:bg-slate-200"
       @click="createNewTranslation"
     >
       New translation
     </button>
 
     <button
-      class="rounded-md border border-slate-400 px-2 py-1 transition hover:bg-slate-200"
+      class="rounded-md border border-slate-300 px-2 py-1 transition hover:bg-slate-200"
     >
-      <Bars3Icon class="h-5 w-5" />
+      <Bars3Icon class="h-5 w-5 text-slate-700" />
     </button>
   </div>
 </template>
