@@ -6,7 +6,7 @@ module Api
       render json: translation.phrases.order(:created_at)
     end
 
-    def create
+    def create # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       phrase = nil
       Translation.transaction do
         translation_id = params[:phrase][:translation_id]
