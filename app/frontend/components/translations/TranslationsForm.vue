@@ -16,7 +16,7 @@
     >
       <FormKitMessages />
       <div class="flex items-center gap-2">
-        <span class="text-sm text-gray-600">Translate from:</span>
+        <span class="text-sm text-gray-600">Translate from</span>
         <FormKit
           id="langFrom"
           type="select"
