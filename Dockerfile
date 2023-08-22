@@ -53,7 +53,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 ENV OPENAI_ACCESS_TOKEN=dummy \
     OPENAI_ORGANIZATION_ID=dummy \
     SECRET_KEY_BASE=dummy
-RUN ./bin/rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 
 # Final stage for app image
@@ -70,7 +70,7 @@ COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
+    chown -R rails:rails db log storage tmp public
 USER rails:rails
 
 # Deployment options
