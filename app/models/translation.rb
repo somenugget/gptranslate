@@ -1,7 +1,7 @@
 class Translation < ApplicationRecord
   belongs_to :user
 
-  has_many :phrases, -> { order(:created_at) }, dependent: :destroy
+  has_many :phrases, -> { order(:created_at) }, dependent: :delete_all
 
   LANGUAGES = {
     'en' => 'English',
