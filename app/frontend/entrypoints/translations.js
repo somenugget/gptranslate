@@ -13,7 +13,7 @@ import Translation from '@/views/Translation.vue'
 import Translations from '@/views/Translations.vue'
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', component: Home, name: 'home' },
   { path: '/t/:id', component: Translation, name: 'translation' },
 ]
 

@@ -25,7 +25,12 @@
             </form>
           </MenuItem>
           <MenuItem v-else>
-            <a href="/auth">Log in</a>
+            <a
+              href="/auth"
+              class="block w-full rounded px-2 py-1 transition hover:bg-gray-100"
+            >
+              Log in
+            </a>
           </MenuItem>
         </MenuItems>
       </transition>

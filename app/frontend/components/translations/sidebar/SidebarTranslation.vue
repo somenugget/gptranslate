@@ -4,6 +4,7 @@
     class="flex justify-between gap-x-1 rounded-md p-2 leading-6 text-gray-700 hover:bg-gray-100"
     :class="{
       'bg-gray-200 hover:bg-gray-200': isActiveTranslation,
+      'pointer-events-none bg-red-100 opacity-50 hover:bg-red-100': deleted,
     }"
   >
     <div class="grow">
@@ -19,10 +20,10 @@
       />
     </div>
     <div
-      v-if="isEditing || isLoading"
+      v-if="isEditing || isUpdating"
       class="flex gap-1"
       :class="{
-        'pointer-events-none opacity-25': isLoading,
+        'pointer-events-none opacity-25': isUpdating,
       }"
     >
       <button type="button" @click.prevent.stop="saveTranslationName">
@@ -33,29 +34,39 @@
       <button type="button" @click.prevent.stop="startEditing">
         <PencilIcon class="h-4 w-4" />
       </button>
-      <button type="button" @click.prevent.stop>
+      <button type="button" @click.prevent.stop="deleteConfirmationOpen = true">
         <TrashIcon class="h-4 w-4" />
       </button>
+      <Confirm
+        :open="deleteConfirmationOpen"
+        :confirming="isDeleting"
+        @cancel="deleteConfirmationOpen = false"
+        @confirm="deleteConfirmation()"
+      >
+        Do you really want to delete the translation "{{ translationName }}"?
+      </Confirm>
     </div>
   </router-link>
 </template>
 
 <script>
 import { CheckIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
-import { useMutation } from '@tanstack/vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 
-import { updateTranslation } from '@/api/translations'
+import { deleteTranslationFromCache } from '@/helpers/cache'
+import { deleteTranslation, updateTranslation } from '@/api/translations'
+import Confirm from '@/ui/Confirm.vue'
 
 export default {
   name: 'SidebarTranslation',
-  components: { PencilIcon, TrashIcon, CheckIcon },
+  components: { PencilIcon, TrashIcon, CheckIcon, Confirm },
   props: {
     translation: {
       type: Object,
     },
   },
   setup(props) {
-    const { mutateAsync, isLoading } = useMutation({
+    const { mutateAsync: update, isLoading: isUpdating } = useMutation({
       mutationFn: ({ name }) => {
         return updateTranslation({
           id: props.translation.id,
@@ -64,13 +75,25 @@ export default {
       },
     })
 
-    return { update: mutateAsync, isLoading }
+    const { mutateAsync: runDelete, isLoading: isDeleting } = useMutation({
+      mutationFn: () => {
+        return deleteTranslation({
+          id: props.translation.id,
+        })
+      },
+    })
+
+    const queryClient = useQueryClient()
+
+    return { update, isUpdating, runDelete, isDeleting, queryClient }
   },
   data() {
     return {
       isEditing: false,
       translationName: this.translation.name,
       initialTranslationName: this.translation.name,
+      deleteConfirmationOpen: false,
+      deleted: false,
     }
   },
   computed: {
@@ -109,6 +132,28 @@ export default {
         .finally(() => {
           this.isEditing = false
         })
+    },
+    deleteConfirmation() {
+      this.runDelete().then(() => {
+        this.deleted = true
+        this.deleteConfirmationOpen = false
+
+        setTimeout(() => {
+          deleteTranslationFromCache({
+            queryClient: this.queryClient,
+            translationId: this.translation.id,
+          })
+        }, 1000)
+
+        if (
+          this.$router.currentRoute?.value?.params?.id ===
+          this.translation.id.toString()
+        ) {
+          this.$router.push({
+            name: 'home',
+          })
+        }
+      })
     },
   },
 }

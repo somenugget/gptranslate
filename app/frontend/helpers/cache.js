@@ -43,3 +43,13 @@ export const addTranslationToCache = ({ queryClient, translation }) => {
   const translations = queryClient.getQueryData(translationsKey)
   queryClient.setQueryData(translationsKey, [...translations, translation])
 }
+
+export const deleteTranslationFromCache = ({ queryClient, translationId }) => {
+  const translationsKey = queryKeys.translations()
+  const translations = queryClient.getQueryData(translationsKey)
+
+  queryClient.setQueryData(
+    translationsKey,
+    translations.filter((translation) => translation.id !== translationId),
+  )
+}

@@ -28,7 +28,11 @@ module Api
       end
     end
 
-    def destroy; end
+    def destroy
+      @translations.find(params[:id]).destroy
+
+      render json: {}
+    end
 
     private
 

@@ -1,4 +1,4 @@
-import { get, post, put } from '@/api/apiClient'
+import { destroy, get, post, put } from '@/api/apiClient'
 
 const getTranslations = () => {
   return get('/api/translations')
@@ -23,4 +23,14 @@ const updateTranslation = ({ id, translation }) => {
   })
 }
 
-export { getTranslations, getTranslation, createTranslation, updateTranslation }
+const deleteTranslation = ({ id }) => {
+  return destroy(`/api/translations/${id}`)
+}
+
+export {
+  getTranslations,
+  getTranslation,
+  createTranslation,
+  updateTranslation,
+  deleteTranslation,
+}
