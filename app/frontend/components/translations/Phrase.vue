@@ -14,19 +14,22 @@
     <div class="flex w-1/2 flex-col">
       <div class="flex items-center justify-between gap-x-4 text-xs">
         <span class="text-gray-500">{{ phrase.langTo }}</span>
-        <button
-          v-if="showBadge"
-          class="pointer-events-none cursor-default rounded-full px-2 py-1 font-medium text-gray-600 transition"
-          :class="badgeClass"
-          :title="badgeTitle"
-          @click="retry"
-        >
-          {{ badgeStatus }}
-        </button>
-        <CopyToClipboardButton
-          v-if="phrase.status === 'translated'"
-          :text="phrase.textTo"
-        />
+        <div class="flex items-center">
+          <button
+            v-if="showBadge"
+            class="pointer-events-none cursor-default rounded-full px-2 py-1 font-medium text-gray-600 transition"
+            :class="badgeClass"
+            :title="badgeTitle"
+            @click="retry"
+          >
+            {{ badgeStatus }}
+          </button>
+          <CopyToClipboardButton
+            v-if="phrase.status === 'translated'"
+            :text="phrase.textTo"
+          />
+          <DeleteTranslationButton :id="phrase.id" />
+        </div>
       </div>
       <div class="group relative">
         <p class="mt-1 whitespace-pre-wrap leading-6">
@@ -43,12 +46,13 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { startCase } from 'lodash'
 
 import CopyToClipboardButton from '@/components/translations/CopyToClipboardButton.vue'
+import DeleteTranslationButton from '@/components/translations/DeleteTranslationButton.vue'
 import { updatePhraseInCache } from '@/helpers/cache'
 import { retryPhraseTranslation } from '@/api/phrases'
 
 export default defineComponent({
   name: 'Phrase',
-  components: { CopyToClipboardButton },
+  components: { CopyToClipboardButton, DeleteTranslationButton },
   props: {
     phrase: {
       type: Object,

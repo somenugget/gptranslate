@@ -32,6 +32,13 @@ module Api
       end
     end
 
+    def destroy
+      phrase = Phrase.find(params[:id])
+      phrase.destroy
+
+      render json: phrase
+    end
+
     def retry
       phrase = Phrase.find(params[:id])
       TranslatePhraseWorker.perform_async(phrase.id)
