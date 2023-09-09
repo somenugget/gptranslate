@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapper" class="-mr-5 grow overflow-y-auto pb-2 pr-5">
+  <div ref="wrapper" class="-mr-5 grow overflow-y-auto pb-2 pr-5 pt-1">
     <div v-if="isSuccess" class="flex flex-col gap-5">
       <Phrase
         v-for="phrase in translations"

@@ -23,6 +23,10 @@
         >
           {{ badgeStatus }}
         </button>
+        <CopyToClipboardButton
+          v-if="phrase.status === 'translated'"
+          :text="phrase.textTo"
+        />
       </div>
       <div class="group relative">
         <p class="mt-1 whitespace-pre-wrap leading-6">
@@ -38,11 +42,13 @@ import { defineComponent } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { startCase } from 'lodash'
 
+import CopyToClipboardButton from '@/components/translations/CopyToClipboardButton.vue'
 import { updatePhraseInCache } from '@/helpers/cache'
 import { retryPhraseTranslation } from '@/api/phrases'
 
 export default defineComponent({
   name: 'Phrase',
+  components: { CopyToClipboardButton },
   props: {
     phrase: {
       type: Object,
