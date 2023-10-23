@@ -28,8 +28,9 @@ gem 'stimulus-rails'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
-gem 'sidekiq'
+gem 'sidekiq', '>= 7.1.6'
 
+gem 'langchainrb'
 gem 'ruby-openai'
 gem 'tiktoken_ruby'
 
