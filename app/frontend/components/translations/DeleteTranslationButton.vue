@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     deletePhrase() {
-      console.log(this.isDeleting)
       this.mutateAsync().then(() => {
         console.log('phrase deleted')
         console.log(queryKeys.translationPhrases(this.translationId))

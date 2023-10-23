@@ -6,10 +6,7 @@
       type="form"
       name="translationForm"
       submit-label="Translate"
-      :value="{
-        langFrom: $currentUser.settings.languageFrom || languages[0],
-        langTo: $currentUser.settings.languageTo || languages[1],
-      }"
+      :value="defaultLanguages"
       :classes="{ form: 'flex flex-col gap-2' }"
       :actions="false"
       @submit="submit"
@@ -30,7 +27,13 @@
           :options="languages"
           @input="setLanguages('langFrom', value.langFrom)"
         />
-        <span class="text-sm text-gray-600">to</span>
+        <button
+          type="button"
+          class="rounded p-1 transition hover:bg-zinc-50"
+          @click="swapLanguages()"
+        >
+          <ArrowPathRoundedSquareIcon class="w-5" />
+        </button>
         <FormKit
           id="langTo"
           type="select"
@@ -87,15 +90,23 @@
 import { defineComponent, ref } from 'vue'
 import { getNode } from '@formkit/core'
 import { FormKitMessages } from '@formkit/vue'
-import { PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowPathRoundedSquareIcon,
+  PaperAirplaneIcon,
+} from '@heroicons/vue/24/outline'
 import { useQueryClient } from '@tanstack/vue-query'
 
 import { addPhraseToCache, invalidateTranslationsCache } from '@/helpers/cache'
 import { sortLanguagesByUsage } from '@/helpers/languages'
 import { createPhrase } from '@/api/phrases'
+
 export default defineComponent({
   name: 'TranslationsForm',
-  components: { FormKitMessages, PaperAirplaneIcon },
+  components: {
+    FormKitMessages,
+    PaperAirplaneIcon,
+    ArrowPathRoundedSquareIcon,
+  },
   setup() {
     const textareaRef = ref(null)
     const textareaMinHeight = ref(64)
@@ -104,6 +115,23 @@ export default defineComponent({
     return { queryClient, textareaRef, textareaMinHeight }
   },
   computed: {
+    defaultLanguages() {
+      const navigatorLanguage = navigator.language.split('-')[0]
+      const langFrom =
+        this.$currentUser.settings.languageFrom ||
+        this.languages.find(({ value }) => value !== navigatorLanguage)?.value
+
+      const langTo =
+        this.$currentUser.settings.languageTo ||
+        this.languages.find(({ value }) => value === navigatorLanguage)
+          ?.value ||
+        this.languages.find(({ value }) => value !== langFrom)?.value
+
+      return {
+        langFrom,
+        langTo,
+      }
+    },
     languages() {
       return sortLanguagesByUsage({
         languages: this.$languages,
@@ -148,6 +176,14 @@ export default defineComponent({
       if (changedNode.value === otherNode.value) {
         otherNode.input(prevValue)
       }
+    },
+    swapLanguages() {
+      const langFromNode = getNode('langFrom')
+      const langToNode = getNode('langTo')
+
+      const langFromValue = langFromNode.value
+      langFromNode.input(langToNode.value)
+      langToNode.input(langFromValue)
     },
     addNewlineOrSubmit(e) {
       e.preventDefault()

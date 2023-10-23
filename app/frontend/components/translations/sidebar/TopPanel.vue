@@ -35,7 +35,6 @@ export default {
   methods: {
     createNewTranslation() {
       createTranslation().then((translation) => {
-        console.log(translation)
         addTranslationToCache({ translation, queryClient: this.queryClient })
         this.$router.push({
           name: 'translation',

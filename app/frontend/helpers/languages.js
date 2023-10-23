@@ -1,6 +1,6 @@
 const sortLanguagesByUsage = ({ languages, languageUsages = {} }) => {
-  return Object.fromEntries(
-    Object.entries(languages).sort((a, b) => {
+  return Object.entries(languages)
+    .sort((a, b) => {
       if (languageUsages[a[0]] && languageUsages[b[0]]) {
         return languageUsages[b[0]] - languageUsages[a[0]]
       }
@@ -14,8 +14,8 @@ const sortLanguagesByUsage = ({ languages, languageUsages = {} }) => {
       }
 
       return a[1].localeCompare(b[1])
-    }),
-  )
+    })
+    .map(([value, label]) => ({ label, value }))
 }
 
 export { sortLanguagesByUsage }

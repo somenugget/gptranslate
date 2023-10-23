@@ -11,7 +11,7 @@ class Translation < ApplicationRecord
     'hi' => 'Hindi',
     'es' => 'Spanish',
     'fr' => 'French',
-    'ar' => 'Standard Arabic',
+    'ar' => 'Arabic',
     'pt' => 'Portuguese',
     'id' => 'Indonesian',
     'de' => 'German',
