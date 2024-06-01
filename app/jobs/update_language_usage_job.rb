@@ -1,6 +1,4 @@
-class UpdateLanguageUsageWorker
-  include Sidekiq::Worker
-
+class UpdateLanguageUsageJob < ApplicationJob
   def perform(user_id)
     user = User.find_by(id: user_id)
 

@@ -1,8 +1,4 @@
-class TranslatePhraseWorker
-  include Sidekiq::Worker
-
-  sidekiq_options retry: 3
-
+class TranslatePhraseJob < ApplicationJob
   def perform(phrase_id)
     phrase = Phrase.find_by(id: phrase_id)
 
@@ -15,6 +11,6 @@ class TranslatePhraseWorker
 
     phrase.broadcast_update
 
-    UpdateLanguageUsageWorker.perform_async(phrase.translation.user_id)
+    UpdateLanguageUsageJob.perform_later(phrase.translation.user_id)
   end
 end

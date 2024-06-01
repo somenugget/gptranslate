@@ -1,5 +1,3 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   root 'translations#index'
   get 't/*path', to: 'translations#index'
@@ -8,7 +6,9 @@ Rails.application.routes.draw do
 
   get :auth, to: 'auth#index'
 
-  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
+  authenticate :user, ->(user) { user.email == ENV['ADMIN_EMAIL'] } do
+    mount GoodJob::Engine => '/good_job'
+  end
 
   resources :translations
 

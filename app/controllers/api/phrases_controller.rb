@@ -24,7 +24,7 @@ module Api
         current_or_guest_user.language_to_setting = phrase.lang_to
         current_or_guest_user.save!
 
-        TranslatePhraseWorker.perform_async(phrase.id)
+        TranslatePhraseJob.perform_later(phrase.id)
 
         render json: phrase
       else
@@ -41,7 +41,7 @@ module Api
 
     def retry
       phrase = Phrase.find(params[:id])
-      TranslatePhraseWorker.perform_async(phrase.id)
+      TranslatePhraseJob.perform_later(phrase.id)
 
       render json: phrase
     end
